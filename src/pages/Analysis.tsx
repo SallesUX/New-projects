@@ -1,7 +1,7 @@
 import { useMemo } from 'react'
 import { useSleepStore } from '../store'
-import { calcTagCorrelation, avgSleepHours, avgNightWakings, qualityColor } from '../utils'
-import { Tag, TAG_LABELS, TAG_EMOJIS, SleepQuality } from '../types'
+import { calcTagCorrelation, avgSleepHours, avgNightWakings } from '../utils'
+import { DayEntry, Tag, TAG_LABELS, TAG_EMOJIS, SleepQuality } from '../types'
 
 const ALL_TAGS: Tag[] = [
   'viagem', 'saida_de_casa', 'visita_de_pessoas', 'vacina', 'doenca', 'denticao', 'mudanca_de_rotina',
@@ -179,7 +179,7 @@ export default function Analysis() {
   )
 }
 
-function QualityDistribution({ entries }: { entries: ReturnType<typeof useSleepStore>['entries'] }) {
+function QualityDistribution({ entries }: { entries: DayEntry[] }) {
   const total = entries.length
   const counts = {
     boa: entries.filter((e) => e.quality === 'boa').length,
@@ -215,7 +215,7 @@ function QualityDistribution({ entries }: { entries: ReturnType<typeof useSleepS
 }
 
 function generateSummary(
-  entries: ReturnType<typeof useSleepStore>['entries'],
+  entries: DayEntry[],
   correlations: { tag: Tag; count: number; withTag: number; withoutTag: number }[]
 ): { icon: string; text: string }[] {
   const lines: { icon: string; text: string }[] = []
